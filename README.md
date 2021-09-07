@@ -9,9 +9,9 @@ Domain 4 : Billing and Pricing | 12%
 Total | 100%
 
 Domain 1: Cloud Concepts
-1.1 Define the AWS Cloud and its value proposition
-1.2 Identify aspects of AWS Cloud economics
-1.3 List the different cloud architecture design principles
+  1.1 Define the AWS Cloud and its value proposition
+  1.2 Identify aspects of AWS Cloud economics
+  1.3 List the different cloud architecture design principles
 Domain 2: Security
 2.1 Define the AWS Shared Responsibility model
 2.2 Define AWS Cloud security and compliance concepts
