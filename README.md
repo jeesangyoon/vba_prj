@@ -1,4 +1,4 @@
-# Cloud Practitioner 시험 요구 사항 <h1> tag
+# Cloud Practitioner 시험 요구 사항 <h1>
 
 Domain                               |      %of Examination
 ------------------------------|------------------------
@@ -8,7 +8,7 @@ Domain 3 : Technology | 36%
 Domain 4 : Billing and Pricing | 12%
 Total | 100%
 
-Domain 1: Cloud Concepts
+* Domain 1: Cloud Concepts
   1.1 Define the AWS Cloud and its value proposition
   1.2 Identify aspects of AWS Cloud economics
   1.3 List the different cloud architecture design principles
