@@ -1,0 +1,21 @@
+Sub fn_Explorer()
+Dim window As Object
+Dim Page
+
+Set window = CreateObject("internetexplorer.application")
+window.Visible = True
+window.navigate "https://nid.naver.com/nidlogin.login"
+Application.Wait Now + TimeSerial(0, 0, 2)
+
+'
+'Set Page = window.document
+'With Page.all
+    '.Item("id").Value = ActiveSheet.Cells(2, 2).Value
+    '.Item("pw").Value = ActiveSheet.Cells(2, 3).Value
+'End With
+'
+'SendKeys "{ENTER}", True
+
+
+window.Quit
+End Sub
