@@ -1,0 +1,232 @@
+Option Explicit
+
+' 제목 공백 구분으로 랜덤하기 섞기
+Sub RandomString()
+
+    Dim strArry As Variant
+    Dim idxArry As Variant
+    Dim i As Integer
+    
+    Dim titleTmp As String
+    
+    Dim strTemp As String
+    Dim rng  As Range
+    
+For Each rng In Range("RNG_S1_TITLE")
+    strTemp = ""
+    titleTmp = Replace(rng.Value, Chr(10), " ")
+    
+    'strArry = Split(rng.Value, " ")
+    strArry = Split(titleTmp, " ")
+    
+    idxArry = fn_Random_idx(UBound(strArry))
+    
+    For i = LBound(strArry) To UBound(strArry)
+        strTemp = strTemp & IIf(i = LBound(strArry), strArry(idxArry(i)), " " & strArry(idxArry(i)))
+        Debug.Print strArry(idxArry(i))
+    Next
+    
+    rng.Offset(, 2).Value = strTemp
+Next
+
+End Sub
+
+' 중복되지 않는 Random Number 생성하기
+Public Function fn_Random_idx(max As Integer) As Variant
+
+Dim idxArry As Variant
+Dim i As Integer
+Dim idx As Integer
+Dim j As Integer
+
+    ReDim idxArry(0 To max)
+    For i = 0 To max
+    
+restart:
+        Randomize                      '난수 재생성
+        'a = Int(Rnd * max) + 1        '난수 a 생성(1~50)
+        idx = Int((max - 0 + 1) * Rnd + 0)
+        
+        idxArry(i) = idx                        '배열의 각 항에 난수값 입력
+                    For j = LBound(idxArry) To (i - 1)       '첫 난수부터 지금 추출된 난수의 전값(i - 1)까지 반복
+                        Select Case idxArry(j)               '즉 배열의 마지막 값(지금 추출한 난수)과 이전 난수를 반복 비교
+                               Case idxArry(i)
+                          GoTo restart                    'idxArry(ii) 이전 난수값과 lotto(i) 지금 추출한 난수값이 같으면 restart로 이동
+                        End Select
+                    Next j                    '여기까지 중복값 배제하는 코드
+
+    Next i
+    fn_Random_idx = idxArry
+
+End Function
+
+
+Sub fn_rndidx()
+    Dim min As Integer, max As Integer, cnt  As Integer
+    
+    Dim idxArry As Variant
+    Dim i As Integer, j As Integer
+    
+    ReDim idxArry(1 To 3, 1 To 2)
+    
+    For i = 1 To UBound(idxArry)
+        For j = 1 To 2
+            
+        Next
+    Next
+    
+    
+    Debug.Print Int((6 - 1 + 1) * Rnd + 1)
+End Sub
+
+Sub fn_Rnd_idx()
+    Dim min As Integer, max As Integer
+    Dim idx() As Integer
+    Dim i As Integer
+    Dim rnd_idx As Integer
+    min = 0
+    max = 5
+
+    
+    ReDim idx(max - min + 1)
+    
+    
+    Randomize
+    For i = min To max
+        
+        rnd_idx = Int((max * Rnd) + min)
+        If i > 0 Then
+        End If
+        
+    Next
+    
+    
+    For i = min To max
+    
+    
+     Debug.Print idx(i)
+    Next
+     
+    'Debug.Print Int((6 - 1 + 1) * Rnd + 1)
+End Sub
+
+
+' 1. 셀의 문장을 쉼표로 구분하여 중복 단어가 있는지 체크
+' 2. 단어의 길이가 2개 이상인 항목
+
+Public Function DuplicatieCheck(rng As Range) As String
+    
+    Dim Arry As Variant
+    Dim i As Integer
+    Dim j As Integer
+    Dim cnt As Integer
+    Dim Tmp As String
+    Dim sortArry As Variant
+    Dim RmoveArry As Variant
+    Dim ArryCnt As Integer
+    Dim rslt As String
+    
+    
+    ' 공백 기준으로 배열 만들기
+    Arry = Split(rng.Value, " ")
+    
+    ' 배열의 개수
+    ArryCnt = UBound(Arry) - LBound(Arry) + 1
+    
+    ' 한문장이면 종료
+    If ArryCnt <= 1 Then Exit Function
+    
+    ' 배열 중복 제거
+    RmoveArry = RemoveDup(Arry)
+    j = 0
+    For i = LBound(RmoveArry) To UBound(RmoveArry)
+        
+        Tmp = RmoveArry(i)
+            ' 단어의 길이가 2개 이상인 단어만 체크
+            
+            If Len(Tmp) > 1 Then
+                
+                ' 단어의 중복 개수
+                cnt = fn_Word_cnt(Arry, Tmp)
+                
+                ' 2개이상이면 중복
+                
+                If cnt > 1 Then
+                   rslt = IIf(j = 0, Tmp, rslt & ", " & Tmp)
+
+                    j = j + 1
+                End If
+        
+            End If
+    Next
+    
+''    If j >= 1 Then
+''        'rng.Interior.Color = 1
+''    End If
+''    rng.Offset(, 2).Value = "Check"
+    DuplicatieCheck = rslt
+
+End Function
+
+Private Function fn_Word_cnt(Arry As Variant, Word As String) As Integer
+
+    Dim i As Integer
+    Dim cnt As Integer
+    
+    cnt = 0
+    For i = LBound(Arry) To UBound(Arry)
+        If Word = Arry(i) Then
+            cnt = cnt + 1
+        End If
+    Next
+    fn_Word_cnt = cnt
+    'Debug.Print cnt & " - " & Word
+End Function
+
+Private Function sort(Arry As Variant) As Variant
+
+Dim Temp As String
+Dim i As Integer, j As Integer
+
+For i = 1 To UBound(Arry)
+    For j = i + 1 To UBound(Arry)
+        If Arry(i) < Arry(j) Then
+            Temp = Arry(j)
+            Arry(j) = Arry(i)
+            Arry(i) = Temp
+        End If
+    Next
+    
+Next
+sort = Arry
+
+End Function
+
+Private Function RemoveDup(Arry As Variant) As Variant
+
+    Dim Teletubies      As New Collection
+    Dim arrData As Variant
+    Dim i               As Long
+
+    '// 에러가 나도 무시하고 다음 문장을 실행하도록 만든다.
+    On Error Resume Next
+
+    '// 배열의 각 원소를 Collection개체에 추가한다.
+    For i = LBound(Arry) To UBound(Arry)
+        '// Item과 Key를 동일한 값으로 Add합니다.
+        Teletubies.Add Arry(i), Arry(i)
+
+    Next
+        
+    ReDim arrData(1 To Teletubies.Count)
+    
+    On Error GoTo 0
+    '// 중복되지 않는 목록을 보여줄 것이다.
+    For i = 1 To Teletubies.Count
+        arrData(i) = Teletubies.Item(i)
+    Next
+    RemoveDup = arrData
+End Function
+
+ 
+
