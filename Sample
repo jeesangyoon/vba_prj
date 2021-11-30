@@ -1,3 +1,13 @@
+
+Sub test02()
+Dim driver As New WebDriver
+Dim rowc, cc, columnC As Integer
+driver.Start "Chrome"
+driver.Get "http://demo.guru99.com/test/web-table-element.php"
+Application.Wait Now + TimeValue("00:03:00")
+End Sub
+
+
 Sub fn_Explorer()
 Dim window As Object
 Dim Page
