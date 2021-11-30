@@ -1,3 +1,33 @@
+'"열기" 버튼에 연결된 매크로
+
+Sub open_NewWindow()
+   
+    Sheets("Sheet2").Visible = True                 '숨겨진 창을 활성화
+    ActiveWindow.NewWindow                        '새창열기
+   
+    Sheets("Sheet2").Select
+    With ActiveWindow                                    '활성화된 창에서
+        .WindowState = xlNormal                        '창의 설정을 일반으로
+        .Width = 300                                         '창의 폭을 200으로
+        .Height = 200                                        '창의 높이를 150으로
+        .Top = 100                                            '창의 윗쪽 위치를 100에
+        .Left = 100                                            '창의 왼쪽 위치를 100에
+    End With
+
+End Sub
+
+ 
+
+'"닫기" 버튼에 연결된 매크로
+
+Sub close_NewWindow()
+    Sheets("Sheet2").Visible = False                 '활성화된 Sheet2를 숨기기
+    ActiveWindow.Close                                  'Sheet2창을 닫음
+    ActiveWindow.WindowState = xlMaximized    '창 크기를 최대로
+End Sub
+
+
+
 
 Sub test02()
 Dim driver As New WebDriver
