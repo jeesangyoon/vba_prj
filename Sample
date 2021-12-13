@@ -1,3 +1,22 @@
+''' html export url
+
+Sub img_url()
+
+Dim HTMLDoc As New MSHTML.HTMLDocument
+    Dim TDelements As IHTMLElementCollection
+    Dim tdimg As HTMLImg
+    
+    HTMLDoc.body.innerHTML = Range("A1").Text
+    
+    Set TDelements = HTMLDoc.getElementsByTagName("img")
+    
+    For Each tdimg In TDelements
+    
+        Debug.Print tdimg.src
+    Next
+End Sub
+
+
 '' URL 
 Function URLExists(url As String) As Boolean
     Dim Request As Object
