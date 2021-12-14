@@ -1,3 +1,87 @@
+' 전체 추출
+Sub img_url_1()
+
+    Dim HTMLDoc As New MSHTML.HTMLDocument
+    Dim TDelements As IHTMLElementCollection
+    Dim tdimg As HTMLImg
+    Dim rng As Range
+    Dim i As Integer
+    Dim rslt As Boolean
+    i = 2
+    
+    For Each rng In Range("RNG_DETAIL_URL")
+        
+        HTMLDoc.body.innerHTML = rng.Value
+        
+        
+        Set TDelements = HTMLDoc.getElementsByTagName("img")
+        
+        For Each tdimg In TDelements
+            
+            'rslt = URLExists(tdimg.src)
+            Range("G" & i).Value = tdimg.src
+            Range("H" & i).Value = URLExists(tdimg.src)
+            i = i + 1
+            'Debug.Print tdimg.src
+        Next
+    
+    
+    Next
+    
+
+End Sub
+
+' 전체 추출
+Sub img_url_bool()
+
+    Dim HTMLDoc As New MSHTML.HTMLDocument
+    Dim TDelements As IHTMLElementCollection
+    Dim tdimg As HTMLImg
+    Dim rng As Range
+    Dim i As Integer
+    Dim bool_cnt As Integer
+    Dim rslt As Boolean
+    i = 2
+    
+    
+    For Each rng In Range("RNG_DETAIL_URL")
+        
+        HTMLDoc.body.innerHTML = rng.Value
+        
+        
+        Set TDelements = HTMLDoc.getElementsByTagName("img")
+        
+        bool_cnt = 0
+        For Each tdimg In TDelements
+            
+            
+            'rslt = URLExists(tdimg.src)
+            Range("G" & i).Value = tdimg.src
+            Range("H" & i).Value = URLExists(tdimg.src)
+            
+            i = i + 1
+            If URLExists(tdimg.src) = False Then
+                bool_cnt = bool_cnt + 1
+            End If
+            
+            'Debug.Print tdimg.src
+        Next
+        
+        ' url개수와 False 개수가 동일하면 전체 목록
+        If TDelements.Length = bool_cnt Then
+            rng.Parent.Cells(rng.Row, 10).Value = "X"
+        ElseIf bool_cnt = 0 Then
+            rng.Parent.Cells(rng.Row, 10).Value = "○"
+        Else
+            rng.Parent.Cells(rng.Row, 10).Value = "△"
+        End If
+
+        rng.Parent.Cells(rng.Row, 11).Value = TDelements.Length
+    Next
+    
+
+End Sub
+
 ''' html export url
 
 Sub img_url()
