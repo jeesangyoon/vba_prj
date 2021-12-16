@@ -1,3 +1,22 @@
+Sub fn__url_stay()
+    Dim driver As New WebDriver
+    Dim rowc, cc, columnC As Integer
+    Dim rng As Range
+    Dim i As Integer, j As Integer
+    driver.Start "Chrome"
+    
+    i = Range("RNG_LATENCY").Value
+'URL화면 전체 반복
+For j = 1 To 3
+    For Each rng In Range("RNG_URL")
+        driver.Get rng.Value
+        
+        'Application.Wait Now + TimeValue("00:00:" & i)
+        Application.Wait Now + TimeSerial(0, 0, i)
+    Next
+Next
+
+
 ' 전체 추출
 Sub img_url_1()
 
