@@ -1,3 +1,9 @@
+
+// 화면 구성 그리드, 버튼(조회), 버튼(저장)
+// 그리드에서 수정 가능 - 수정 후 저장시 Insert
+// JScript File
+
+
 /*****************************************
 * 버튼 컨트롤이 클릭되는 시점에 발생합니다.
 * * arguments :  
@@ -5,124 +11,27 @@
 *****************************************/
  var OnButtonClick  = function(sender, args)
  {
- 	if(args.Id == "BTN_SER"){
-		if(Matrix.getObject("VS_PROJECT_CODE").Text == "" || Matrix.getObject("VS_PROJECT_SEQ").Text == ""){
-			Matrix.Alert("프로젝트 및 차수를 선택해주세요.");
-			return;
-		}
-				
-		// 초기화
-		cell_bom_option = null;
-		pack_bom_option = null;
+ 
+ 	var title = Matrix.getLanguage("TPL001", "저장확인");
+	var msg = Matrix.getLanguage("" ,"저장 하시겠습니까?");
+	
+	
+ 	if(args.Id == "Btn_Search"){
+		Matrix.doRefresh("Grid1");
+	}else if (args.Id == "Btn_Save") {
 		
-		Matrix.doRefresh("GRID_CELL, GRID_PACK");
-	}else if(args.Id == "BTN_CELL_D"){
-
-		// Validation
-		if(Matrix.getObject("VS_PROJECT_CODE").Text == "" || Matrix.getObject("VS_PROJECT_SEQ").Text == ""){
-			Matrix.Alert("프로젝트 및 차수를 선택해주세요.");
-			return;
-		}
-		
-		if(cell_bom_option == null){
-			Matrix.Alert("Cell BoM 옵션을 선택해주세요.");
-			return;
-		}
-		
-		if(Matrix.BaseAddress == "http://bpmsdev.aws.lgchem.com:8080/matrix/iCanvas"){
-			url = 'http://pcasodev.aws.lgchem.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_C_BOM&VS_PROJECT_CODE=';
-		}else if(Matrix.BaseAddress == "http://bpms.lgchem.com:8080/matrix/iCanvas"){
-			url = 'http://pcaso.lgchem.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_C_BOM&VS_PROJECT_CODE=';
-		}else if(Matrix.BaseAddress == "http://bpmsdev.lgensol.com:8080/matrix/iCanvas"){
-			url = 'http://pcasodev.lgensol.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_C_BOM&VS_PROJECT_CODE=';
-		}else if(Matrix.BaseAddress == "http://bpms.lgensol.com:8080/matrix/iCanvas"){
-			url = 'http://pcaso.lgensol.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_C_BOM&VS_PROJECT_CODE=';
-		}
-		
-		popup = window.open(url + Matrix.getObject("VS_PROJECT_CODE").Text + '&VS_PROJECT_SEQ=' + Matrix.getObject("VS_PROJECT_SEQ").Text +'&VS_PROJECT_NAME=' + Matrix.getObject("VS_PROJECT_NAME").Text.replace("%"," Percent ") + '&VS_CUST_NM=' + Matrix.getObject("VS_CUS_NM").Text + '&VS_BOM_OPTION=' + cell_bom_option + '&VS_SV_PROJECT_CODE=' + Matrix.getObject("VS_PROJECT_CODE").Text + '&VS_SV_PROJECT_SEQ=' + Matrix.getObject("VS_PROJECT_SEQ").Text +'&VS_SV_PROJECT_NAME=' + Matrix.getObject("VS_PROJECT_NAME").Text.replace("%"," Percent ") + '&VS_SV_CUST_NM=' + Matrix.getObject("VS_CUS_NM").Text + '&VS_SV_BOM_OPTION=' + cell_bom_option, 'costStep' , 'width=1530,height=800,left=100,top=150,menubar=no,toolbar=no,status=no,location=no,resizable=yes');
-		popup.focus();
-	}else if(args.Id == "BTN_PACK_D"){
-		// Validation
-		if(Matrix.getObject("VS_PROJECT_CODE").Text == "" || Matrix.getObject("VS_PROJECT_SEQ").Text == ""){
-			Matrix.Alert("프로젝트 및 차수를 선택해주세요.");
-			return;
-		}
-		
-		if(pack_bom_option == null){
-			Matrix.Alert("Pack BoM 옵션을 선택해주세요.");
-			return;
-		}
-		
-		if(Matrix.BaseAddress == "http://bpmsdev.aws.lgchem.com:8080/matrix/iCanvas"){
-			url = 'http://pcasodev.aws.lgchem.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_P_BOM&VS_PROJECT_CODE=';
-		}else if(Matrix.BaseAddress == "http://bpms.lgchem.com:8080/matrix/iCanvas"){
-			url = 'http://pcaso.lgchem.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_P_BOM&VS_PROJECT_CODE=';
-		}else if(Matrix.BaseAddress == "http://bpmsdev.lgensol.com:8080/matrix/iCanvas"){
-			url = 'http://pcasodev.lgensol.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_P_BOM&VS_PROJECT_CODE=';
-		}else if(Matrix.BaseAddress == "http://bpms.lgensol.com:8080/matrix/iCanvas"){
-			url = 'http://pcaso.lgensol.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_P_BOM&VS_PROJECT_CODE=';
-		}	
-		//url = 'http://pcasodev.lgensol.com:8080/service/html.ncd?view=BPC/matrix/RFI_BoM_Popup&VS_STEP_TYPE=RFI_P_BOM&VS_PROJECT_CODE=';
-		
-		popup = window.open(url + Matrix.getObject("VS_PROJECT_CODE").Text + '&VS_PROJECT_SEQ=' + Matrix.getObject("VS_PROJECT_SEQ").Text +'&VS_PROJECT_NAME=' + Matrix.getObject("VS_PROJECT_NAME").Text.replace("%"," Percent ") + '&VS_CUST_NM=' + Matrix.getObject("VS_CUS_NM").Text + '&VS_BOM_OPTION=' + pack_bom_option + '&VS_SV_PROJECT_CODE=' + Matrix.getObject("VS_PROJECT_CODE").Text + '&VS_SV_PROJECT_SEQ=' + Matrix.getObject("VS_PROJECT_SEQ").Text +'&VS_SV_PROJECT_NAME=' + Matrix.getObject("VS_PROJECT_NAME").Text.replace("%"," Percent ") + '&VS_SV_CUST_NM=' + Matrix.getObject("VS_CUS_NM").Text + '&VS_SV_BOM_OPTION=' + pack_bom_option, 'costStep' , 'width=1420,height=800,left=100,top=150,menubar=no,toolbar=no,status=no,location=no,resizable=yes');
-		popup.focus();
-	}else if(args.Id == "BTN_CELL_ADD"){
-		
-		// Validation
-		if(Matrix.getObject("VS_PROJECT_CODE").Text == "" || Matrix.getObject("VS_PROJECT_SEQ").Text == ""){
-			Matrix.Alert("프로젝트 및 차수를 선택해주세요.");
-			return;
-		}
-		
-		var grid = Matrix.getObject("GRID_CELL");
-		
-		grid.AppendRow().setData("PROJECT_CODE", Matrix.getObject("VS_PROJECT_CODE").Text);
-		grid.setRowData(grid.RowCount-1 ,"PROJECT_SEQ", Matrix.getObject("VS_PROJECT_SEQ").Text);
-		
-	}else if(args.Id == "BTN_PACK_ADD"){
-		
-		// Validation
-		if(Matrix.getObject("VS_PROJECT_CODE").Text == "" || Matrix.getObject("VS_PROJECT_SEQ").Text == ""){
-			Matrix.Alert("프로젝트 및 차수를 선택해주세요.");
-			return;
-		}
-		
-		var grid = Matrix.getObject("GRID_PACK");
-		
-		grid.AppendRow().setData("PROJECT_CODE", Matrix.getObject("VS_PROJECT_CODE").Text);
-		grid.setRowData(grid.RowCount-1 ,"PROJECT_SEQ", Matrix.getObject("VS_PROJECT_SEQ").Text);
-		
-	}else if(args.Id == "BTN_SAVE_CELL"){
-		
-		if(Matrix.getObject("GRID_CELL").IsModified == false){
-			Matrix.Alert("변경 된 내역이 없습니다.");
-			return;
-		}
-		
-		Matrix.Confirm("셀 BoM 저장", "저장하시겠습니까?", function(isOk){
+		Matrix.Confirm(title ,msg ,function(isOk){
                    	if(isOk){
-                  		SaveData("GRID_CELL", "SAVE_BOM_CELL");
+					//Matrix.Alert("저장");
+                  		SaveData("Grid1", "SAVE_GRID");
                   	}	
                   });
-	}else if(args.Id == "BTN_SAVE_PACK"){
-		
-		if(Matrix.getObject("GRID_PACK").IsModified == false){
-			Matrix.Alert("변경 된 내역이 없습니다.");
-			return;
-		}
-		
-		Matrix.Confirm("Pack BoM 저장", "저장하시겠습니까?", function(isOk){
-                   	if(isOk){
-                  		SaveData("GRID_PACK", "SAVE_BOM_PACK");
-                  	}	
-                  });
-	}else if(args.Id == "BTN_PRJ_SER_P"){
-		Matrix.doRefresh("GRID_PRJ_P");
 	}
+	
  };
-
-
- /**************************************************
+ 
+ 
+  /**************************************************
 * 서버 스크립트 실행 함수
 * 변수  : grid_name, s_script
 * 사용법 : SaveData("GRID_COPY_MGT", "SAVE_COPY_MGT"); 
@@ -133,34 +42,28 @@ var SaveData = function(grid_name, s_script){
 	
 	//서버스크립트 실행						  
 	Matrix.RunScript(grid_name, s_script ,function(p){
-                                 	if(p.Success == false){
+									if(p.Success == false){
                                 		Matrix.Alert(p.Message);
                                 		return;
-                                	}else{
-										// 필터 초기화
-										Filter_Clear(grid_name);
-										
+                                	}else{										
 										var  ds = p.DataSet; 
-										Matrix.Alert("저장이 완료되었습니다.");
-										
-										if(grid_name == "GRID_CELL"){
-											Matrix.doRefresh("GRID_CELL");
-										}else if(grid_name == "GRID_PACK"){
-											Matrix.doRefresh("GRID_PACK");
-										}
+										Matrix.Alert("저장 완료되었습니다.");
+										Matrix.doRefresh("Grid1");
+
 									}
                                 });
 }
 
-// ------------------------------------------------------------------------------------- 이하 서버 스크립트
+--------------------------------------------------------------------------------------------
+// Server Script > Template > SaveData
+// File Name : SAVE_GRID
 
 /*************************************************************
  * SAMPLE #1 single table insert
  *************************************************************/
 
 var req = Matrix.getRequest(); // request
-var res = Matrix.getResponse();
-var table = req.getTable("GRID_PACK"); //get grid's work data
+var table = req.getTable("Grid1"); //get grid's work data
  
 var con = Matrix.getConnection(); // dbms connection
 var gen = Matrix.getQueryGenerator(); // query generator
@@ -169,8 +72,9 @@ var status = "";
 var row = null;	
 try{
 	//connection
-	con.Connect("DB833ECF8DA682477FA26F8491F8C8CEA8");// BPMS_APP DB코드
+	con.Connect("DB833ECF8DA682477FA26F8491F8C8CEA8");// set target dbms connection code
 	con.BeginTransaction();  // begin transaction	 
+	
 	 
 	//------------------------------------------------------
 	// save table data
@@ -179,36 +83,21 @@ try{
 		row = table.getRow(r);
 		status = row.getRowStatus(); 
 		
-		// 테이블 적재
-		// CELL BOM 의 해당 프로젝트,차수의 MAX + 1 버전으로 입력
-		
-		// CRUD TABLE : PCS_RFI_MTL_PACK_BOM_PRODUCT
-		
-		if(status == "N"){ // INSERT		
+		// auto generation dml sql
+		if(status == "U"){ // create
 			
-			sql = " INSERT INTO PCS_RFI_MTL_PACK_BOM_PRODUCT "
-			    + " (PROJECT_CODE, PROJECT_SEQ, BOM_OPTION, BOM_OPTION_DESC, MODIFY_ABLE_YN, CREATION_DATE, CREATED_BY_ID) "
-				+ " VALUES "
-				+ " ('" + row.getData("PROJECT_CODE") + "', '" + row.getData("PROJECT_SEQ") + "',(SELECT 'OPTION' || NVL(MAX(TO_NUMBER(SUBSTR(BOM_OPTION,7,2))) + 1, 1) AS BOM_OPTION FROM PCS_RFI_MTL_PACK_BOM_PRODUCT WHERE PROJECT_CODE = '" + row.getData("PROJECT_CODE") + "' AND PROJECT_SEQ = '" + row.getData("PROJECT_SEQ") + "' ), '" + row.getData("BOM_OPTION_DESC").replaceAll("'", "''") + "', 'N', SYSDATE, '" + req.getParam("P_USER_CODE") + "')";
-			 
-		}else if(status == "U"){ // UPDATE
-		
-			sql = " UPDATE PCS_RFI_MTL_PACK_BOM_PRODUCT "
-			    + "    SET  BOM_OPTION_DESC = '" + row.getData("BOM_OPTION_DESC").replaceAll("'", "''") + "' "
-				+ "       , UPDATE_DATE = SYSDATE "
-				+ "       , UPDATED_BY_ID = '" + req.getParam("P_USER_CODE") + "' "
-			    + "  WHERE PROJECT_CODE = '" + row.getData("PROJECT_CODE") + "' "
-				+ "    AND PROJECT_SEQ  = '" + row.getData("PROJECT_SEQ") + "' "
-				+ "    AND BOM_OPTION   = '" + row.getData("BOM_OPTION") + "' ";
-				
+			//sql = gen.getDMLCommand(table ,row ,"bang_tmp1", con.getDbType());			
+			sql = " INSERT INTO BANG_TMP1 (OC_BASE_DT, OC_PROD_CD, OC_REG_DT, OC_REG_ID ) VALUES "
+			    + " ('" + row.getData("OC_BASE_DT") + "', '" + row.getData("OC_PROD_CD") + "', '" + row.getData("OC_REG_DT") + "', '" + row.getData("OC_REG_ID")  + "')";
+			
 		}
+//Matrix.ThrowException(sql);		
 		Matrix.WriteLog(sql);
 		con.ExecuteUpdate(sql);
 		
-	} 
-	
+	}  
+	// COMMIT
 	con.CommitTransaction();
-		
 	con.DisConnect();
 	con = null;	
 }catch(e){
