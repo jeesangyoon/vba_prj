@@ -1,3 +1,112 @@
+Option Explicit
+
+Sub fn_taboo_del()
+    
+    Dim taboo_word As Variant
+    Dim rng As Range
+    Dim val As Range
+    Dim str As String, tmp As String
+    
+    Dim i As Single
+    
+    Dim strValue As String
+    
+    i = 1
+    
+    InitProgressBar (Range("RNG_S4_VALUE").Rows.Count)
+    
+    For Each val In Range("RNG_S4_VALUE")
+        tmp = val.Value
+        For Each rng In Range("RNG_S4_TABOO")
+            'Debug.Print rng.Row
+            tmp = Replace(tmp, rng.Value, "")
+
+        Next
+        
+    val.Offset(, 1).Value = tmp
+    i = i + 1
+    DoEvents
+    ShowProgress (i)
+    
+    Next
+    
+    CloseProgressBar
+End Sub
+
+
+Sub test()
+    Dim i As Single
+    
+    UserForm1.Show
+    
+    For i = 1 To 1000
+        
+        
+        
+    Next
+    
+    Unload UserForm1
+End Sub
+
+
+Sub TestProgressBar()
+
+    Dim j As Long
+    Dim Max As Long
+
+    Max = 45
+
+    'Initilaize the progress bar width
+    InitProgressBar (Max)
+
+    For j = 1 To Max
+    
+        DoEvents
+        ShowProgress (j)
+        
+    Next j
+    
+    CloseProgressBar
+
+End Sub
+
+
+Sub ShowProgress(Progress As Long)
+
+    With ProgressBar
+
+        'Round Up
+        .Bar.Width = Round(.Bar.Tag * Progress, 0)
+        .ProgressText.Caption = Round((.Bar.Width / .Frame1.Width * 100), 0) & "% complete"
+    
+    End With
+
+End Sub
+
+
+
+Sub InitProgressBar(MaxValue As Long)
+
+    With ProgressBar
+    
+        .Bar.Tag = .Frame1.Width / MaxValue
+        .Bar.Width = 0
+        .ProgressText = ""
+        .Show vbModeless
+        
+    End With
+    
+End Sub
+
+
+Sub CloseProgressBar()
+
+    Unload ProgressBar
+    
+End Sub
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
 Option Explicit
 
